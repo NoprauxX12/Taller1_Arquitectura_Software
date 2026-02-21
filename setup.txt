@@ -1,0 +1,64 @@
+========================================
+  ORDER COMPUTING STORE - CÓMO CORRER EL PROYECTO
+========================================
+
+Requisitos: Tener PHP >= 8.2 y composer.
+
+----------------------------------------
+1. Instalar dependencias
+----------------------------------------
+  composer install
+
+----------------------------------------
+2. Archivo de configuración (.env)
+----------------------------------------
+  - Se debe organizar en localhost/phpmyadmin una base de datos llamada orderComputingStore
+  - Se debe ver el archivo .env y organizar lo que se plantea a continuación
+  .......
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE= orderComputingStore
+  DB_USERNAME=root
+  DB_PASSWORD=
+  .........    
+
+----------------------------------------
+3. Migraciones
+----------------------------------------
+  Se deben correr las migraciones que tiene el proyecto. Esto para crear la tabla de
+  orden con sus columnas.
+  
+  Debe ejecutarse con ' php artisan migrate '.
+
+----------------------------------------
+4. Generar datos sintéticos
+----------------------------------------
+Para revisar el funcionamiento de la lista de ordenes utilizaremos el comando
+
+' php artisan db:seed ' 
+
+Con esto podrán tener datos sintéticos para poder ver la lista además de 
+agregar los datos manualmente.
+
+----------------------------------------
+5. Levantar el servidor
+----------------------------------------
+  php artisan serve
+
+  El servidor quedará en: http://127.0.0.1:8000
+
+----------------------------------------
+6. Ruta inicial a la que acceder
+----------------------------------------
+  Abre en el navegador:
+
+    http://127.0.0.1:8000/
+
+  Esa es la página de inicio (home), con los botones para ir a Productos y
+  Pedidos. Desde ahí puedes:
+
+    - Crear orden:  http://127.0.0.1:8000/order
+    - Listar órdenes: http://127.0.0.1:8000/order/list
+
+========================================
