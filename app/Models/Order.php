@@ -2,72 +2,85 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class Order extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['total', 'status', 'can_be_cancelled', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'total' => 'decimal:2',
+        'can_be_cancelled' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     public function getId(): int
     {
-        return $this -> attributes['id'];
+        return $this->attributes['id'];
     }
 
     public function setId($id): void
     {
-        $this -> attributes['id'] = $id;
+        $this->attributes['id'] = $id;
     }
 
     public function getTotal(): float
     {
-        return $this -> attributes['total'];
+        return $this->attributes['total'];
     }
 
     public function setTotal($total): void
     {
-        $this -> attributes['total'] = $total;
+        $this->attributes['total'] = $total;
     }
 
     public function getStatus(): string
     {
-        return $this -> attributes['status'];
+        return $this->attributes['status'];
     }
-    
+
     public function setStatus($status): void
     {
-        $this -> attributes['status'] = $status;
+        $this->attributes['status'] = $status;
     }
 
     public function getCanBeCancelled(): bool
     {
-        return $this -> attributes['can_be_cancelled'];
+        return $this->attributes['can_be_cancelled'];
     }
 
     public function setCanBeCancelled($canBeCancelled): void
     {
-        $this -> attributes['can_be_cancelled'] = $canBeCancelled;
+        $this->attributes['can_be_cancelled'] = $canBeCancelled;
     }
 
     public function getCreatedAt(): DateTime
     {
-        return $this -> attributes['created_at'];
+        return $this->created_at instanceof DateTime
+            ? $this->created_at
+            : Carbon::parse($this->attributes['created_at']);
     }
 
     public function setCreatedAt($createdAt): void
     {
-        $this -> attributes['created_at'] = $createdAt;
+        $this->attributes['created_at'] = $createdAt;
     }
 
     public function getUpdatedAt(): DateTime
     {
-        return $this -> attributes['updated_at'];
+        return $this->updated_at instanceof DateTime
+            ? $this->updated_at
+            : Carbon::parse($this->attributes['updated_at']);
     }
 
     public function setUpdatedAt($updatedAt): void
     {
-        $this -> attributes['updated_at'] = $updatedAt;
+        $this->attributes['updated_at'] = $updatedAt;
     }
 }

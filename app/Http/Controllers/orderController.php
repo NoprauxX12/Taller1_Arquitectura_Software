@@ -16,7 +16,7 @@ class orderController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request -> validate([
+        $request->validate([
             'total' => 'required',
             'status' => 'required|in:pending,completed,cancelled',
             'can_be_cancelled' => 'nullable|boolean',
@@ -31,13 +31,38 @@ class orderController extends Controller
         if (empty($request['updated_at'])) {
             $request['updated_at'] = now();
         }
-        Order::create($request-> only('total', 'status', 'can_be_cancelled', 'created_at', 'updated_at'));
+        Order::create($request->only('total', 'status', 'can_be_cancelled', 'created_at', 'updated_at'));
 
-        return redirect()->route('order.index')->with('success', 'Order created successfully.');
+        return redirect()->route('order.success');
+    }
+
+    public function success(): View
+    {
+        return view('order.success');
     }
 
     public function list(): View
     {
-        return view('order.list');
+        $viewData = [];
+        $viewData['Orders'] = Order::all();
+
+        return view('order.list')->with('viewData', $viewData);
+    }
+
+    public function show(string $id): View
+    {
+        $viewData = [];
+        $product = Order::findOrFail($id);
+        $viewData['Order'] = $product;
+
+        return view('order.show')->with('viewData', $viewData);
+    }
+
+    public function delete(string $id): RedirectResponse
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        return redirect()->route('order.list')->with('success', 'Order deleted successfully.');
     }
 }
